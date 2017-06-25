@@ -1,16 +1,15 @@
 import sqlite3
-from typing import List
 
-from .db import DB, ListingItem
+from .db import DB
 
 
-def add_keyword(key: str):
+def add_keyword(key):
     with DB() as db:
         db.execute('INSERT INTO keywords VALUES (?)', (key,))
         db.commit()
 
 
-def remove_keyword(key: str) -> int:
+def remove_keyword(key):
     with DB() as db:
         db.execute('DELETE FROM keywords WHERE key = ?', (key,))
         db.commit()
@@ -22,7 +21,7 @@ def list_keywords():
         return db.get('SELECT * FROM keywords')
 
 
-def add_items(items: List[ListingItem]) -> List[ListingItem]:
+def add_items(items):
     with DB() as db:
         for item in items:
             try:
