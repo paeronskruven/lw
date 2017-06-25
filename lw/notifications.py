@@ -9,7 +9,7 @@ from email.mime.multipart import MIMEMultipart
 config = configparser.ConfigParser()
 config.read(os.path.expanduser('~/.lw/lw.conf'))
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('LW')
 
 
 def _send_email(new_items):

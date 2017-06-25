@@ -51,7 +51,7 @@ def progress(evt_stop):
 
 
 def run(args):
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger('LW')
     logger.setLevel(logging.INFO)
 
     handler = logging.FileHandler(os.path.expanduser('~/.lw/lw.log'))
