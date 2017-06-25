@@ -1,15 +1,14 @@
 import os
 import configparser
-import logging
 import smtplib
 import email.utils
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+from .log import logger
+
 config = configparser.ConfigParser()
 config.read(os.path.expanduser('~/.lw/lw.conf'))
-
-logger = logging.getLogger('LW')
 
 
 def _send_email(new_items):

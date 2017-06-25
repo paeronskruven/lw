@@ -6,11 +6,11 @@ import configparser
 import importlib
 import itertools
 import threading
-import logging
 
 from . import sources
 from .data import calls
 from .notifications import notify
+from .log import logger
 
 
 config = configparser.ConfigParser()
@@ -51,17 +51,6 @@ def progress(evt_stop):
 
 
 def run(args):
-    logger = logging.getLogger('LW')
-    logger.setLevel(logging.INFO)
-
-    handler = logging.FileHandler(os.path.expanduser('~/.lw/lw.log'))
-    handler.setLevel(logging.INFO)
-
-    formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(message)s')
-    handler.setFormatter(formatter)
-
-    logger.addHandler(handler)
-
     evt_stop = threading.Event()
     t = threading.Thread(target=progress, args=(evt_stop,))
     t.start()
@@ -91,6 +80,8 @@ def run(args):
 
     if len(new_items):
         notify(new_items)
+
+    print('Complete')
 
 
 def main():
