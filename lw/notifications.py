@@ -1,15 +1,19 @@
+import os
 import configparser
+import logging
 import smtplib
 import email.utils
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(os.path.expanduser('~/.lw/lw.conf'))
+
+logger = logging.getLogger(__name__)
 
 
 def _send_email(new_items):
-    print('Preparing email')
+    logger.info('Preparing email')
 
     server = smtplib.SMTP(
         config.get('smtp', 'host'),
@@ -53,16 +57,16 @@ def _send_email(new_items):
             msg.as_string()
         )
 
-        print('Email sent')
+        logger.info('Email sent')
 
     except Exception as ex:
-        print(ex)
+        logger.error(ex)
     finally:
         server.close()
 
 
 def notify(items):
-    print('Notifying of new items')
+    logger.info('Notifying of new items')
 
     if config.getboolean('notifications', 'email'):
         _send_email(items)

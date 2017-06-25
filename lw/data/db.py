@@ -34,17 +34,18 @@ def _setup_db(connection):
 
 class DB:
 
+    DB_PATH = os.path.expanduser('~/.lw/{0}'.format(DB_FILE_NAME))
+
     def __enter__(self):
-        # todo: get installed path for db
-        run_setup = not os.path.exists(DB_FILE_NAME)
-        self.connection = sqlite3.connect(DB_FILE_NAME)
+        run_setup = not os.path.exists(self.DB_PATH)
+        self.connection = sqlite3.connect(self.DB_PATH)
 
         if run_setup:
             try:
                 _setup_db(self.connection)
             except sqlite3.OperationalError:
                 self.connection.close()
-                os.remove(DB_FILE_NAME)
+                os.remove(self.DB_PATH)
                 raise
 
         return self
