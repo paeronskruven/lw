@@ -16,6 +16,9 @@ class TraderaSource(BaseSource):
             html = response.read()
 
         soup = bs4.BeautifulSoup(html, 'html.parser')
+        if soup.find('section', attrs={'class': ['search-result-fallback-total-items-empty']}):
+            return
+
         items = soup.find_all('li', attrs={'data-item-id': True})
         for item in items:
             heading = item.find(attrs={'class': ['item-card-details-header']})
